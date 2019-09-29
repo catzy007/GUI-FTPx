@@ -1,0 +1,21 @@
+{
+  "name": "coba",
+  "version": "1.0.0",
+  "description": "ya coba coba",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron .",
+    "coba" : "node coba.js"
+  },
+  "author": "bagon",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^6.0.10",
+    "electron-builder": "^21.2.0"
+  },
+  "dependencies": {
+    "electron-updater": "^4.1.2",
+    "ftp": "^0.3.10"
+  }
+}
