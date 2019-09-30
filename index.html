@@ -15,14 +15,31 @@
 <body>
   <h1>Coba Coba</h1>
   <p id="version"></p>
+  <p id="mycoba">uaa</p>
   <script>
     const { ipcRenderer } = require('electron');
     const version = document.getElementById('version');
+    const mycoba = document.getElementById('mycoba');
     
     ipcRenderer.send('app_version');
     ipcRenderer.on('app_version', (event, arg) => {
       ipcRenderer.removeAllListeners('app_version');
       version.innerText = 'Version ' + arg.version;
     });
+
+    var show;
+    ipcRenderer.send('listData');
+    ipcRenderer.on('listData', (event, arg) => {
+      ipcRenderer.removeAllListeners('listData');
+      for(i=0; i<arg.mylist.length; i++){
+        show=show + arg.mylist[i].date + ' ' + arg.mylist[i].name + '\n';
+      }
+      mycoba.innerText = 'jajal woi\n' + show;
+    });
+  </script>
+  <script>
+    
+
+
   </script>
 </body>
