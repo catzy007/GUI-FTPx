@@ -38,7 +38,7 @@ ipcMain.on('app_version', (event) => {
 
 
 
-// =========================================
+//=============================================
 var day=29; var month=08; var year=2019;
 var DlDate = new Date(year,month,day);
 //console.log(DlDate);
@@ -48,24 +48,14 @@ var c = new Client();
 c.on('ready', function() {
   c.list(function(err, list) {
     if (err) throw err;
-    //pass list to electron window
+    //pass list data to electron window
     ipcMain.on('listData', (event) => {
       event.sender.send('listData', { mylist: list });
     });
-    //console.dir(list);
-    // for (let i=0; i<list.length; i+=1) {
-    //   //only list file that more than DlDate
-    //   if(list[i].date > DlDate){
-    //     console.log(list[i].name, list[i].date);
-    //     ipcMain.on('listData', (event) => {
-    //       event.sender.send('listData', { mylist: list });
-    //     });
-    //   }
-    // }
   c.end();
   });
 });
-// connect to localhost:21 as anonymous with password 1234
+// connect to localhost:21 as efi4 with password 1033
 c.connect({
   host: "localhost",
   port: 21,

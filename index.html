@@ -15,7 +15,7 @@
 <body>
   <h1>Coba Coba</h1>
   <p id="version"></p>
-  <p id="mycoba">uaa</p>
+  <div id="mycoba">Ooops!! Cannot fetch data</div>
   <script>
     const { ipcRenderer } = require('electron');
     const version = document.getElementById('version');
@@ -27,14 +27,20 @@
       version.innerText = 'Version ' + arg.version;
     });
 
-    var show;
+    //=============================================
+
     ipcRenderer.send('listData');
     ipcRenderer.on('listData', (event, arg) => {
       ipcRenderer.removeAllListeners('listData');
+      var show="<table style=\"width:100%\">";
       for(i=0; i<arg.mylist.length; i++){
-        show=show + arg.mylist[i].date + ' ' + arg.mylist[i].name + '\n';
+        show=show + "<tr>"
+        show=show + '<td>' + arg.mylist[i].date + '</td>';
+        show=show + '<td>' + arg.mylist[i].name + '</td>';
+        show=show + "</tr>"
       }
-      mycoba.innerText = 'jajal woi\n' + show;
+      show=show+"</table>";
+      mycoba.innerHTML = show;
     });
   </script>
   <script>
