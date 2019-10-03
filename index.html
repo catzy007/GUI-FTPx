@@ -15,20 +15,18 @@
 <body>
   <h1>Ftp file list</h1>
   <div id="mycoba2">Fetching Data</div>
-  <div id="errcheck"></div>
 
   <script>
     const { ipcRenderer } = require('electron');
     const mycoba = document.getElementById('mycoba2');
-    const myerr = document.getElementById('errcheck');
 
     var show="<table style=\"width:100%\">";
     ipcRenderer.send('listData');
     ipcRenderer.send('error');
     
-    ipcRenderer.on('error', (event, arg) => {
-      ipcRenderer.removeAllListeners('error');
-      myerr.innerHTML = arg.error;
+    ipcRenderer.on('errorData', (event, arg) => {
+      ipcRenderer.removeAllListeners('errorData');
+      mycoba.innerHTML = arg.error;
     })
 
     ipcRenderer.on('listData', (event, arg) => {

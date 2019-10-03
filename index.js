@@ -46,10 +46,9 @@ function getData () {
     var c = new Client();
     c.on('ready', function() {
       c.list(function(err, list) {
-        if (err) reject(err);
+        if (err) reject(err); //reject promise
         console.log(list);
-        resolve(list)
-        //pass list data to electron window       
+        resolve(list) //resolve promise
       c.end();
       });
     });
@@ -65,11 +64,12 @@ function getData () {
 }
 
 
+//pass list data to electron window
 ipcMain.on('listData', (event) => {
   getData().then((list) => {    
     event.sender.send('listData', { mylist: list });
   }).catch((err) => {
-    event.sender.send('error', { error: err });
+    event.sender.send('errorData', { error: err });
   })
 });
 
