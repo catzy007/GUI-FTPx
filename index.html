@@ -13,21 +13,37 @@
   </style>
 </head>
 <body>
-  <h1>Ftp file list</h1>
+  <h2>FTP file list</h2>
+  <input type="text" id="addr" placeholder="localhost"></input>
+  <input type="text" id="port" placeholder="21"></input>
+  <input type="text" id="uname" placeholder="admin"></input>
+  <input type="text" id="paswd" placeholder="1234"></input>
+  <p onclick="sendData();">Submit</p>
   <div id="mycoba2">Fetching Data</div>
+  
 
   <script>
     const { ipcRenderer } = require('electron');
     const mycoba = document.getElementById('mycoba2');
+    var addr, port, uname, paswd, arrInput;
 
     var show="<table style=\"width:100%\">";
     ipcRenderer.send('listData');
     ipcRenderer.send('error');
+
+    function sendData(){
+      addr = document.getElementById('addr').value;
+      port = document.getElementById('port').value;
+      uname = document.getElementById('uname').value;
+      paswd = document.getElementById('paswd').value;
+      arrInput = [addr, port, uname, paswd];
+      ipcRenderer.send('arrInput',arrInput);
+    }
     
-    ipcRenderer.on('errorData', (event, arg) => {
-      ipcRenderer.removeAllListeners('errorData');
-      mycoba.innerHTML = arg.error;
-    })
+    // ipcRenderer.on('errorData', (event, arg) => {
+    //   ipcRenderer.removeAllListeners('errorData');
+    //   mycoba.innerHTML = arg.error;
+    // });
 
     ipcRenderer.on('listData', (event, arg) => {
       ipcRenderer.removeAllListeners('listData');
