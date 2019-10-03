@@ -14,10 +14,10 @@
 </head>
 <body>
   <h2>FTP file list</h2>
-  <input type="text" id="addr" placeholder="localhost"></input>
-  <input type="text" id="port" placeholder="21"></input>
-  <input type="text" id="uname" placeholder="admin"></input>
-  <input type="text" id="paswd" placeholder="1234"></input>
+  <input type="text" id="addr" placeholder="Server Address" value="localhost"></input>
+  <input type="text" id="port" placeholder="Server Port" value="21"></input>
+  <input type="text" id="uname" placeholder="Ftp Username" value="admin"></input>
+  <input type="text" id="paswd" placeholder="Ftp Password" value="1234"></input>
   <p onclick="sendData();">Submit</p>
   <div id="mycoba2">Fetching Data</div>
   
@@ -27,34 +27,23 @@
     const mycoba = document.getElementById('mycoba2');
     var addr, port, uname, paswd, arrInput;
 
-    var show="<table style=\"width:100%\">";
-    ipcRenderer.send('listData');
-    ipcRenderer.send('error');
-
     function sendData(){
       addr = document.getElementById('addr').value;
       port = document.getElementById('port').value;
       uname = document.getElementById('uname').value;
       paswd = document.getElementById('paswd').value;
       arrInput = [addr, port, uname, paswd];
-      ipcRenderer.send('arrInput',arrInput);
-    }
-    
-    // ipcRenderer.on('errorData', (event, arg) => {
-    //   ipcRenderer.removeAllListeners('errorData');
-    //   mycoba.innerHTML = arg.error;
-    // });
 
-    ipcRenderer.on('listData', (event, arg) => {
-      ipcRenderer.removeAllListeners('listData');
-      for(i=0; i<arg.mylist.length; i++){
-        show=show + '<tr>';
-        show=show + '<td>' + arg.mylist[i].date + '</td>';
-        show=show + '<td>' + arg.mylist[i].name + '</td>';
-        show=show + '</tr>';
-      }
-      show=show + "</table>";
-		mycoba.innerHTML = show;
-    });
+      var show="<table style=\"width:100%\">";
+      var mydata = ipcRenderer.sendSync('arrMsg', arrInput);
+      for(i=0; i<mydata.length; i++){
+          show=show + '<tr>';
+          show=show + '<td>' + mydata[i].date + '</td>';
+          show=show + '<td>' + mydata[i].name + '</td>';
+          show=show + '</tr>';
+        }
+        show=show + "</table>";
+        mycoba.innerHTML = show;
+    }
   </script>
 </body>
