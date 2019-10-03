@@ -13,39 +13,34 @@
   </style>
 </head>
 <body>
-  <h1>Coba Coba</h1>
-  <p id="version"></p>
-  <div id="mycoba">Ooops!! Cannot fetch data</div>
+  <h1>Ftp file list</h1>
+  <div id="mycoba2">Fetching Data</div>
+  <div id="errcheck"></div>
+
   <script>
     const { ipcRenderer } = require('electron');
-    const version = document.getElementById('version');
-    const mycoba = document.getElementById('mycoba');
-    
-    ipcRenderer.send('app_version');
-    ipcRenderer.on('app_version', (event, arg) => {
-      ipcRenderer.removeAllListeners('app_version');
-      version.innerText = 'Version ' + arg.version;
-    });
+    const mycoba = document.getElementById('mycoba2');
+    const myerr = document.getElementById('errcheck');
 
-    //=============================================
-
+    var show="<table style=\"width:100%\">";
     ipcRenderer.send('listData');
+    ipcRenderer.send('error');
+    
+    ipcRenderer.on('error', (event, arg) => {
+      ipcRenderer.removeAllListeners('error');
+      myerr.innerHTML = arg.error;
+    })
+
     ipcRenderer.on('listData', (event, arg) => {
       ipcRenderer.removeAllListeners('listData');
-      var show="<table style=\"width:100%\">";
       for(i=0; i<arg.mylist.length; i++){
-        show=show + "<tr>"
+        show=show + '<tr>';
         show=show + '<td>' + arg.mylist[i].date + '</td>';
         show=show + '<td>' + arg.mylist[i].name + '</td>';
-        show=show + "</tr>"
+        show=show + '</tr>';
       }
-      show=show+"</table>";
-      mycoba.innerHTML = show;
+      show=show + "</table>";
+		mycoba.innerHTML = show;
     });
-  </script>
-  <script>
-    
-
-
   </script>
 </body>
