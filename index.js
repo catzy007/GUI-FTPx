@@ -37,8 +37,7 @@ ipcMain.on('app_version', (event) => {
 });
 
 
-//=============================================
-var data;
+//============================================= list data
 ipcMain.on('arrMsg',(event, arg) => {
   console.log('index ' + arg);
   var Client = require('ftp');
@@ -61,6 +60,29 @@ ipcMain.on('arrMsg',(event, arg) => {
     //debug: console.log
   });
 });
+
+//====================
+ipcMain.on('arrDlMsg',(event,arg) => {
+  var Client = require('ftp');
+  var fs = require('fs');
+
+  var c = new Client();
+  c.on('ready', function() {
+    c.get(arg[4], function(err, stream) {
+      if (err) throw err;
+      stream.once('close', function() { c.end(); });
+      stream.pipe(fs.createWriteStream(arg[4]));
+      event.returnValue = 'done!';
+    });
+  });
+  c.connect({
+    host: arg[0],
+    port: arg[1],
+    user: arg[2],
+    password: arg[3],
+  });
+});
+
 
 //https://github.com/mscdex/node-ftp
 

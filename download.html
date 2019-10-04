@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<head>
+    <title>Coba Coba</title>
+    <style>
+    body {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 20px;
+        font-family: sans-serif;
+        background-color: #eaeaea;
+        text-align: center;
+    }
+    </style>
+</head>
+<body>
+  <h2>FTP download</h2>
+  <input type="text" id="addr" placeholder="Server Address" value="localhost"></input>
+  <input type="text" id="port" placeholder="Server Port" value="21"></input>
+  <input type="text" id="uname" placeholder="Ftp Username" value="admin"></input>
+  <input type="text" id="paswd" placeholder="Ftp Password" value="1234"></input>
+  <input type="text" id="files" placeholder="File to download"></input>
+  <p onclick="sendData();">Submit</p>
+  <div id="mycoba2">Downloading Files</div>
+  
+
+  <script>
+    const { ipcRenderer } = require('electron');
+    const mycoba = document.getElementById('mycoba2');
+    var addr, port, uname, paswd, arrInput, filedl;
+
+    function sendData(){
+        addr = document.getElementById('addr').value;
+        port = document.getElementById('port').value;
+        uname = document.getElementById('uname').value;
+        paswd = document.getElementById('paswd').value;
+        filedl = document.getElementById('files').value;
+        arrInput = [addr, port, uname, paswd, filedl];
+
+        var mydata = ipcRenderer.sendSync('arrDlMsg', arrInput);
+        mycoba.innerHTML = mydata;
+    }
+  </script>
+</body>
