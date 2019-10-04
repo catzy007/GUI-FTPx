@@ -32,10 +32,6 @@ app.on('activate', function () {
   }
 });
 
-ipcMain.on('app_version', (event) => {
-  event.sender.send('app_version', { version: app.getVersion() });
-});
-
 
 //============================================= list data
 ipcMain.on('arrMsg',(event, arg) => {
@@ -61,8 +57,9 @@ ipcMain.on('arrMsg',(event, arg) => {
   });
 });
 
-//====================
+//============================================= download files
 ipcMain.on('arrDlMsg',(event,arg) => {
+  console.log('dl ' + arg);
   var Client = require('ftp');
   var fs = require('fs');
 
