@@ -18,6 +18,7 @@
   <input type="text" id="port" placeholder="Server Port" value="21"></input>
   <input type="text" id="uname" placeholder="Ftp Username" value="admin"></input>
   <input type="text" id="paswd" placeholder="Ftp Password" value="1234"></input>
+  <input type="text" id="path" placeholder="Ftp Path" value="/Jateng/2019/02/20/"></input>
   <p onclick="sendData();">Submit</p>
   <div id="mycoba2">Fetching Data</div>
   <a href="download.html">Download</a>
@@ -26,19 +27,21 @@
   <script>
     const { ipcRenderer } = require('electron');
     const mycoba = document.getElementById('mycoba2');
-    var addr, port, uname, paswd, arrInput;
+    var addr, port, uname, paswd, arrInput,path;
 
     function sendData(){
       addr = document.getElementById('addr').value;
       port = document.getElementById('port').value;
       uname = document.getElementById('uname').value;
       paswd = document.getElementById('paswd').value;
-      arrInput = [addr, port, uname, paswd];
+      path = document.getElementById('path').value;
+      arrInput = [addr, port, uname, paswd, path];
 
       var show="<table style=\"width:100%\">";
       var mydata = ipcRenderer.sendSync('arrMsg', arrInput);
       for(i=0; i<mydata.length; i++){
           show=show + '<tr>';
+          show=show + '<td>' + mydata[i].type + '</td>';
           show=show + '<td>' + mydata[i].date + '</td>';
           show=show + '<td>' + mydata[i].name + '</td>';
           show=show + '</tr>';

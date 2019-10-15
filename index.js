@@ -39,7 +39,7 @@ ipcMain.on('arrMsg',(event, arg) => {
   var Client = require('ftp');
   var c = new Client();
   c.on('ready', function() {
-    c.list(function(err, list) {
+    c.list("/Jateng/2019/02/20",function(err, list) {
       if (err) throw (err);
       //console.log(list);
       event.returnValue = list
@@ -65,10 +65,10 @@ ipcMain.on('arrDlMsg',(event,arg) => {
 
   var c = new Client();
   c.on('ready', function() {
-    c.get(arg[4], function(err, stream) {
+    c.get(arg[4]+arg[5], function(err, stream) {
       if (err) throw err;
       stream.once('close', function() { c.end(); });
-      stream.pipe(fs.createWriteStream(arg[4]));
+      stream.pipe(fs.createWriteStream(arg[5]));
       event.returnValue = 'done!';
     });
   });
